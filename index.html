@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骆伟旺-音乐在线播放网站</title>
+
+    <!--引入CSS-->
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!--一、封面与歌曲信息区域-->
+    <div class="player">
+        <h2>骆伟旺-25216950623</h2>
+        <div class="main-area">
+            <!--封面区域的最外层容器，用于控制封面整体的位置、大小、以及和右侧歌曲信息的布局关系-->
+            <div class="cover-container">
+                <!--封面的外层圆形背景层，对应图片里封面外围的深色圆形区域-->
+                <div class="cover-outer">
+                    <!--封面的内层容器，包裹实际的封面图片，让封面呈现“双层圆”的视觉效果-->
+                    <div class="cover-inner">
+                        <!--alt是替代文本属性，当图片加载失败时，页面会显示这段文字；id是唯一标识属性-->
+                        <img src="./images/record0.jpg" alt="洛春赋封面" id="coverImg">
+                    </div>
+                </div>
+            </div>
+            <div class="song-detail">
+                <h1 id="songName">洛春赋</h1>
+                <p id="singer">作者: 25216950623-骆伟旺</p>
+            </div>
+        </div>
+
+        <!--进度条progress-->
+        <div class="progress-bar">
+            <div class="progress-track" id="progressTrack">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <audio src="./mp3/music0.mp3" id="audio" hidden></audio>
+
+        <!--控制按钮栏-->
+        <div class="control-bar">
+            <span class="time" id="time">00:00 / 04:03</span>
+            <div class="control-group">
+
+                <!--中间按钮组件-->
+                <button class="control-btn" id="loopBtn">
+                    <img src="./images/mode2.png" alt="循环播放" id="loopIcon">
+                </button>
+                <button class="control-btn" id="prevBtn">
+                    <img src="./images/上一首.png" alt="上一首">
+                </button>
+                <button class="control-btn play-btn" id="playBtn">
+                    <img src="./images/继续播放.png" alt="继续播放" id="playIcon">
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <img src="./images/下一首.png" alt="下一首">
+                </button>
+                <button class="control-btn" id="volumeBtn">
+                    <img src="./images/音量.png" alt="音量">
+                </button>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="0.1">
+
+                <!--右侧按钮组件-->
+                <button class="control-btn" id="mvBtn">
+                    <img src="./images/MV.png" alt="MV">
+                </button>
+                <span class="speed-text" id="speedText" style="cursor: pointer;">1.0X</span>  <!--用于js动态修改显示的倍数-->
+                <button class="control-btn" id="playlistBtn">
+                    <img src="./images/列表.png" alt="播放列表">
+                </button>
+                <!--播放列表的ul-->
+                <div id="playlistContainer" class="playlist-container">
+                    <ul id="playlistList" class="playlist-list"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--MV播放弹窗-->
+    <div id="mvModal" class="mv-modal">
+        <div class="mv-modal-content">
+            <span class="mv-close">&times;</span>
+            <video id="mvPlayer" controls class="mv-player"></video>
+        </div>
+    </div>
+
+    <!--引用JS-->
+    <script src="./js/timeFormat.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+</html>
