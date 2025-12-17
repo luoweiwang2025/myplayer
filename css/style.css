@@ -1,0 +1,291 @@
+body {
+    min-height: 100vh;
+    display: flex;  /*将body设置为Flex容器，开启flex布局*/
+    justify-content: center;  /*在flex下，水平居中*/
+    align-items: center;  /*在flex下，垂直居中*/
+    color: #fff;
+}
+
+/*封面与歌曲信息区域，设置整个播放器的大容器*/
+.player {
+    width: 1024px;
+    height: 600px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;  /*内边距*/
+    border-radius: 15px;  /*将播放器容器的四个角设置为15像素的圆角*/
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);  /*添加阴影效果*/
+    overflow: hidden;  /*隐藏容器内超出的内容，避免布局混乱*/
+    display: flex;
+    flex-direction: column;
+}
+
+.main-area {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-left: 150px;
+}
+
+/*封面圆形样式*/
+.cover-container {
+    position: relative;  /*相对定位，为子元素的绝对定位提供参考*/
+}
+
+.cover-outer {
+    width: 400px;  /*设置第一个外圆圈的位置，宽高等*/
+    height: 400px;
+    border-radius: 50%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cover-inner {
+    width: 220px;  /*调整第二个圈的位置，宽高等*/
+    height: 220px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;  /*隐藏元素内部超出边界的内容，如图片*/
+}
+
+#coverImg {
+    width: 100%;   /*css的id选择器，页面里只会有一个id=“coverImg的图片，用该id选择器能精准定位到这张图片”*/
+    height: 100%;
+    animation: rotate 10s linear infinite;  /*动画属性的简写，用来给元素设置旋转动画效果*/
+    animation-play-state: paused;  /*用于暂停元素的动画，通过js动态修改这个属性，实现暂停/播放的交互效果*/
+}
+
+/*图片实现旋转效果*/
+@keyframes rotate {  /*定义名为rotate的关键帧动画，规定起始和结束状态*/
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*歌曲信息*/
+.song-detail h1 {
+    font-size: 65px;
+    font-weight: normal;  /*字体不加粗*/
+    font-family: 楷体, Microsoft YaHei, sans-serif;
+    margin-bottom: 10px;
+}
+.song-detail p {
+    font-size: 18px;
+    color: #ccc;
+    padding-left: 8px;  /*让p标签的文字右移一点点*/
+    position: relative; /*相对定位，负数往上移，正数往下移*/
+    top: -15px;
+}
+
+/*进度条progress*/
+.progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ccc;
+}
+.progress-track {
+    flex: 1;  /*开启弹性布局*/
+    height: 1.5px;  /*进度条轨道的高度，即粗细*/
+    background: #fff;  /*轨道背景色*/
+    border-radius: 3px;  /*给轨道添加圆角*/
+    position: relative; /*设置元素为相对定位*/
+    cursor: pointer;  /*鼠标悬浮在轨道时光标变为手型，提示该区域可以点击交互*/
+}
+.progress-fill {
+    position: absolute;  /*绝对定位*/
+    left: 0;  /*元素左侧与父容器对齐*/
+    top: 0;  /*元素的顶部与父容器对齐*/
+    height: 100%; /*元素高度占父容器的100%*/
+    width: 1%;  /*初始宽度为1，后续通过js动态修改*/
+    background: #00ff9d;
+    border-radius: 3px;
+}
+
+/*控制整个按钮栏的位置*/
+.control-bar {
+    display: flex;  /*将按钮设为弹性布局，让子元素横向排列*/
+    align-items: center;
+    gap: 5px;  /*子元素之间的间距，避免按钮挤在一起*/
+     /*控制按钮栏的位置，依次表示上、右、下、左四个方向的外边距*/
+    margin: 15px 0 0 0;
+    color: #ccc;
+    width: 100%;
+}
+.time {
+    margin-right: 220px;  /*时间和控制组件的间距*/
+}
+
+.control-group {
+    position: relative; /*新增*/
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.control-btn {  /*单个按钮功能*/
+    background: transparent;  /*按钮背景透明*/
+    border: none;  /*去除按钮边框*/
+    cursor: pointer;  /*光标变手型*/
+    width: 40px; 
+    height: 40px;
+    display: flex;
+    align-items: center;  /*垂直居中*/
+    justify-content: center;  /*水平居中*/
+}
+.control-btn img {
+    width: 24px;  /*图标的宽高*/
+    height: 24px;
+    object-fit: contain; /*保持图片比例，完整显示在容器内，避免拉伸变形*/
+    font-size: 10px;
+    /* white-space: nowrap; 禁止换行*/ 
+    /* overflow: visible;  取消溢出隐藏 */
+}
+
+/*播放按钮*/
+.play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.play-btn img {  /*调节播放按钮的大小*/
+    width: 42px;
+    height: 42px;
+}
+
+/*音量条*/
+.volume-slider {
+    width: 120px; /*音量条的宽度*/
+    appearance: none;  /*移除浏览器为元素预设的默认样式*/
+    height: 2px;  /*控制音量条的粗细*/
+    border-radius: 2px;
+    outline: none;
+    background: #ccc;
+}
+/*音量滑块+保留交互*/
+.volume-slider::-webkit-slider-thumb {  /*::表伪元素，slider-thumb指滑块的拖动按钮*/
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: #00ff9d;  /*透明背景，视觉上隐藏*/
+    border-radius: 50%;
+    border: none; /*去掉边框*/
+    cursor: pointer; /*光标变手型*/
+    position: relative;
+    z-index: 1;
+}
+
+#mvBtn {
+    margin-left: auto;
+}
+
+/*倍速控制*/
+.speed-text {
+    font-size: 16px;
+    padding: 4px 1px; /*内边距：上下4px。左右150px*/
+    border-radius: 4px;
+    cursor: pointer;
+    /* margin-left: 170px; */
+    transition: background-color 0.2s;  /*为元素的背景属性变化添加0.2s的渐变过渡动画*/
+    margin: 0 5px;
+}
+.speed-text:hover {
+    background: rgba(52, 211, 153, 0.2);  /*悬浮时浅绿背景*/
+    color: #fff;
+}
+
+
+/*控制播放列表按钮的大小*/
+#playlistBtn {
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+}
+#playlistBtn img {
+    width: 20px;
+    height: 20px;
+}
+/*播放列表的样式以及位置设计*/
+.playlist-container {
+    display: none;
+    position: absolute;
+    bottom: 80px;  /*与控制栏的距离*/
+    right: 10px;  /*列表显示的位置*/
+    background: #222;
+    color: #fff;
+    width: 220px;
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;  /*确保列表在最上层*/
+}
+.playlist-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;  /*列表最大高度，超出滚动*/
+    overflow-y: auto;
+}
+.playlist-list li {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    transition: color 0.2s, background-color 0.2s;
+}
+.playlist-list li:hover {
+    color: #00ff9d;
+    background-color: #333;
+}
+.playlist-list li.active {
+    color: #00ff9d;
+    border-left: 3px solid #00ff9d;
+    padding-left: 7px;
+}
+.playlist-list::-webkit-scrollbar {
+    width: 4px;
+}
+.playlist-list::-webkit-scrollbar-thumb {
+    background: #00ff9d;
+    border-radius: 2px;
+}
+
+/*mv弹窗遮罩*/
+.mv-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+}
+/*mv弹窗内容*/
+.mv-modal-content {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+}
+/*关闭按钮*/
+.mv-close {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+}
+/*mv播放器*/
+.mv-player {
+    width: 100%;
+    height: auto;
+}
